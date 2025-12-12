@@ -63,6 +63,14 @@ typeof ctx (Record fields) =
         Just fieldTypes -> Just (TRecord fieldTypes)
         Nothing         -> Nothing
 
+typeof ctx (AccessRecord e key) = 
+    case typeof ctx e of 
+        Just (TRecord fieldTypes) -> 
+            case key of
+                Var name -> lookup name fieldTypes
+                _ -> Nothing
+        _ -> Nothing        
+
 
 typeofFields :: Ctx -> [Expr] -> Maybe [(String, Ty)]
 typeofFields _ [] = Just []

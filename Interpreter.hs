@@ -12,7 +12,7 @@ findFieldValue targetName [] = Nothing
 findFieldValue targetName (RecordField (Var fieldName) val : rest)
     | targetName == fieldName = Just val
     | otherwise               = findFieldValue targetName rest
-findFieldValue _ _ = Nothing -- Caso o elemento não seja um RecordField (segurança)
+findFieldValue _ _ = Nothing 
 
 isValue :: Expr -> Bool 
 isValue BTrue  = True 
@@ -92,8 +92,7 @@ step (App (Lam x tp e1) e2) = if (isValue e2) then
 -- registro
 step (Attri t1 t2)
     | not (isValue t2) = Attri t1 (step t2)
-    | otherwise        = t2  -- Se o lado direito é valor, retorna o valor (t2)
-
+    | otherwise        = t2  
 
 step (RecordField key val)
     | not (isValue val) = RecordField key (step val)
@@ -101,18 +100,20 @@ step (RecordField key val)
 
 step (Record fields) =
     case break (not . isValue) fields of
-        (_, []) -> Record fields              -- todos os campos já são valores
+        (_, []) -> Record fields             
         (before, f:after) -> Record (before ++ [step f] ++ after)
 
 
 step (AccessRecord rec key)
     | not (isValue rec) = AccessRecord (step rec) key
-    | not (isValue key) = AccessRecord rec (step key)
+
+
 step (AccessRecord (Record fields) (Var name)) =
     case findFieldValue name fields of
         Just v  -> v
         Nothing -> recordError
 step (AccessRecord _ _) = recordError
+
 
 step e = error ("Stuck: no rule to step on " ++ show e)
 

@@ -1,0 +1,14 @@
+--criar record vazio
+echo "record {}" | ./Main
+
+--exemplo para criar um record
+echo "record { valor : 100 }" | ./Main
+
+--exemplo para acessar o valor
+echo "(record { x : 5 + 1 }).x" | ./Main
+
+-- record com varios campos
+echo "record { x : 10, y : 20 + 2, z : 5 * 5 }" | ./Main
+
+-- record com record
+echo "record { p : record { a : 1, b : 2 }, flag : true }" | ./Main

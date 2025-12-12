@@ -22,22 +22,8 @@ happy Parser.hs
 2. Executar o GHCI:
 
 ```bash
-ghci
-```
-3. Carregar os arquivos:
-
-```bash
-:load Parser Interpreter Lexer TypeChecker
+ghc Main.hs
 ```
 4. Carregar e executar os exemplos:
-
-```bash
-:load Examples
-
-exec ex1
-```
-5. Sair:
-```bash
-:q
-```
+E para executar os exemplos, so copiar os codigos no exemplos.txt.
  
